@@ -1,8 +1,9 @@
+import 'package:dartz/dartz.dart';
 import 'package:posts_app/features/posts/domain/entities/post_entity.dart';
 
 abstract class PostRepository {
-  Future<List<PostEntity>> getAllPosts();
-  Future<bool> deletePost(int postId);
-  Future<bool> ubdatePost(PostEntity post);
- Future<bool> addPost(PostEntity post);
+ Future<Either<Failure, List<PostEntity>>>  getAllPosts();
+  Future<Either<Failure,Unit>> deletePost(int postId);
+  Future<Either<Failure,Unit>> ubdatePost(PostEntity post);
+ Future<Either<Failure,Unit>> addPost(PostEntity post);
 }
