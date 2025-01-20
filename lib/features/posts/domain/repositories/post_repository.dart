@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:posts_app/features/posts/domain/entities/post_entity.dart';
 
-import '../../../../core/erorr/failures.dart';
+import '../../../../core/errors/failures.dart';
 
-abstract class PostsRepository {
+abstract interface class PostsRepository {
+  
  Future<Either<Failure, List<PostEntity>>>  getAllPosts();
   Future<Either<Failure,Unit>> deletePost(int postId);
   Future<Either<Failure,Unit>> ubdatePost(PostEntity post);
