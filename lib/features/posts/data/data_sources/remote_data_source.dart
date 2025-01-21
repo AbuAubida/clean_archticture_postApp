@@ -23,11 +23,13 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
     final response = await client.get(
         Uri.parse(EndPoints.baseURL + EndPoints.posts),
         headers: {"Content-Type": "application/json"});
+
     if (response.statusCode == 200) {
       final List jsonString = json.decode(response.body);
       final List<PostModel> remotePosts = jsonString.map<PostModel>((json) {
         return PostModel.fromJson(json);
       }).toList();
+      
       return Future.value(remotePosts);
     } else {
       throw ServerDataException();
@@ -42,7 +44,7 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 201) {
-      // we used the 201 code as this used when add items to api in http package 
+      // we used the 201 code as this used when add items to api in http package
       return Future.value(unit);
     } else {
       throw ServerDataException();
@@ -52,7 +54,7 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
   @override
   Future<Unit> deletePost(int postId) async {
     final response = await client.delete(
-      Uri.parse(EndPoints.baseURL+EndPoints.deletePoint(postId)),
+      Uri.parse(EndPoints.baseURL + EndPoints.deletePoint(postId)),
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
@@ -63,10 +65,9 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
   }
 
   @override
-  Future<Unit> ubdatePost(PostModel post)async {
-   final response = await client.patch(
-
-      Uri.parse(EndPoints.baseURL+EndPoints.deletePoint(post.id)),
+  Future<Unit> ubdatePost(PostModel post) async {
+    final response = await client.patch(
+      Uri.parse(EndPoints.baseURL + EndPoints.deletePoint(post.id)),
       body: post.toJson(),
       headers: {"Content-Type": "application/json"},
     );

@@ -6,6 +6,7 @@ final secondaryColor = Color(0xff51eec2);
 final appTheme = ThemeData(
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,
+      foregroundColor: secondaryColor,
       centerTitle: true,
     ),
     brightness: Brightness.light,

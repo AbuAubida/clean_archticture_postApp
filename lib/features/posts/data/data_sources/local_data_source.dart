@@ -21,6 +21,7 @@ class LocalDataSourceImplementation implements LocalDataSource {
         posts.map<Map<String, dynamic>>((postmodel) {
       return postmodel.toJson();
     }).toList();
+
     pref.setString(ApiKeys.casedhPosts, jsonEncode(encodedJson));
     return Future.value(unit);
   }
@@ -33,6 +34,8 @@ class LocalDataSourceImplementation implements LocalDataSource {
       List<PostModel> posts = decodedJson.map<PostModel>((json) {
         return PostModel.fromJson(json);
       }).toList();
+      print(posts);
+
       return Future.value(posts);
     } else {
       throw CasheDataException();

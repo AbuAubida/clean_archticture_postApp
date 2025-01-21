@@ -7,11 +7,13 @@ import 'package:posts_app/features/posts/data/data_sources/remote_data_source.da
 import 'package:posts_app/features/posts/data/models/post_model.dart';
 import 'package:posts_app/features/posts/domain/entities/post_entity.dart';
 import 'package:posts_app/features/posts/domain/repositories/post_repository.dart';
+
 typedef CRUDTypeFunction = Future<Unit> Function();
+
 class PostRepositoryImplementation implements PostsRepository {
   final RemoteDataSource remoteDataSource;
   final LocalDataSource localDataSource;
-  
+
   final NetworkStateImplementation isConnectedToInternet;
   PostRepositoryImplementation(
       {required this.isConnectedToInternet,
@@ -28,6 +30,7 @@ class PostRepositoryImplementation implements PostsRepository {
       try {
         //get posts from api
         final remotePost = await remoteDataSource.getAllPosts();
+       await localDataSource.cashePosts(remotePost);
         return Right(remotePost);
       } on ServerDataException {
         return Left(ServerFailure());
@@ -74,7 +77,6 @@ class PostRepositoryImplementation implements PostsRepository {
 
   @override
   Future<Either<Failure, Unit>> deletePost(int postId) async {
-    
     return addUbdatedDelete(() {
       return remoteDataSource.deletePost(postId);
     });
@@ -82,17 +84,18 @@ class PostRepositoryImplementation implements PostsRepository {
 
   @override
   Future<Either<Failure, Unit>> ubdatePost(PostEntity post) async {
-   final requistedAddPost =
+    final requistedAddPost =
         PostModel(id: post.id, title: post.title, body: post.body);
     return addUbdatedDelete(() {
       return remoteDataSource.ubdatePost(requistedAddPost);
     });
   }
 
-  Future<Either<Failure, Unit>> addUbdatedDelete( CRUDTypeFunction  doThis) async {
+  Future<Either<Failure, Unit>> addUbdatedDelete(
+      CRUDTypeFunction doThis) async {
     if (await isConnectedToInternet.isConnected) {
       try {
-         doThis;
+        doThis;
         return Right(unit);
         //  return Right(await remoteDataSource.addPost(requistedAddPost));
       } on ServerDataException {

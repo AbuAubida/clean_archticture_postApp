@@ -25,7 +25,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddPostUseCase(sl()));
   sl.registerLazySingleton(() => UbdatePostUseCase(sl()));
   sl.registerLazySingleton(() => DeletePostUseCase(sl()));
-  sl.registerLazySingleton(() => GetAllPostsUseCase(sl()));
+  
 
   // repositories
   sl.registerLazySingleton<PostsRepository>(() => PostRepositoryImplementation(
