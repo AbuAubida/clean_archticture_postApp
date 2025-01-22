@@ -29,7 +29,7 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
       final List<PostModel> remotePosts = jsonString.map<PostModel>((json) {
         return PostModel.fromJson(json);
       }).toList();
-      
+
       return Future.value(remotePosts);
     } else {
       throw ServerDataException();
@@ -53,11 +53,13 @@ class RemoteDataSourceImplemntation implements RemoteDataSource {
 
   @override
   Future<Unit> deletePost(int postId) async {
+    print("Deleting post started");
     final response = await client.delete(
       Uri.parse(EndPoints.baseURL + EndPoints.deletePoint(postId)),
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
+      print("post Deleted successfully ");
       return Future.value(unit);
     } else {
       throw ServerDataException();

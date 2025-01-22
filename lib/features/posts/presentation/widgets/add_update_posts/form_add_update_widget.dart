@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:posts_app/core/app_theme.dart';
 import 'package:posts_app/features/posts/domain/entities/post_entity.dart';
 import 'package:posts_app/features/posts/presentation/bloc/add_ubdate_delete_post_bloc/add_ubdate_delete_post_bloc.dart';
 import 'package:posts_app/features/posts/presentation/widgets/add_update_posts/add_update_post_button.dart';
