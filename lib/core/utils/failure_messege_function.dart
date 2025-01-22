@@ -2,7 +2,8 @@ import 'package:posts_app/core/errors/failures.dart';
 import 'package:posts_app/core/strings/failures.dart';
 
 String getFailureMessege(Failure failure) {
-  switch (failure.runtimeType) {
+  
+  switch (failure) {
     case ServerFailure():
       return SERVER_FAILURE_MESSAGE;
     case NoInternetConnectionFailure():

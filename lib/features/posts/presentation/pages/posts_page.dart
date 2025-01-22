@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:posts_app/features/posts/presentation/bloc/posts/get_refresh_posts_bloc.dart';
-import 'package:posts_app/features/posts/presentation/widgets/error_messege_widget.dart';
+import 'package:posts_app/features/posts/presentation/pages/posts_add_update_page.dart';
+import 'package:posts_app/features/posts/presentation/widgets/get_all_posts/error_messege_widget.dart';
 
 import '../../../../core/widgets/loading_widget.dart';
-import '../widgets/posts_list_widget.dart';
+import '../widgets/get_all_posts/posts_list_widget.dart';
 
 class PostsPage extends StatelessWidget {
   const PostsPage({super.key});
@@ -32,8 +33,10 @@ class PostsPage extends StatelessWidget {
           return LoadingWidget();
         } else if (state is LoadedPostsState) {
           return RefreshIndicator(
-              onRefresh: () async{
-               return   context.read<GetRefreshPostsBloc>().add(RefreshPostsEvent());
+              onRefresh: () async {
+                return context
+                    .read<GetRefreshPostsBloc>()
+                    .add(RefreshPostsEvent());
               },
               child: PostsListWidget(posts: state.posts));
         } else if (state is LoadingPostsErrorState) {
@@ -46,7 +49,14 @@ class PostsPage extends StatelessWidget {
 
   _buildFloatingBtn(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return PostsAddUpdatePage(
+            isUpdate: false,
+            
+          );
+        }));
+      },
       child: Icon(Icons.add),
     );
   }

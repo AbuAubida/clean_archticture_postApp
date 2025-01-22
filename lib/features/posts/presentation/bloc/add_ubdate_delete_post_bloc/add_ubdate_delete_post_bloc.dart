@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:posts_app/core/errors/failures.dart';
 import 'package:posts_app/core/strings/success_operations_messege.dart';
 import 'package:posts_app/core/utils/failure_messege_function.dart';
 import 'package:posts_app/features/posts/domain/entities/post_entity.dart';
@@ -26,20 +27,20 @@ class AddUbdateDeletePostBloc
       if (event is AddPostEvent) {
         emit(LoadingAddUbdateDeletePostState());
         final failureOrSucess = await addPostUseCase(event.post);
-        addUbdateDeletePost(failureOrSucess, ADD_SUCCESS_MESSAGE);
+        emit(addUbdateDeletePost(failureOrSucess, ADD_SUCCESS_MESSAGE));
       } else if (event is UpdatePostEvent) {
         emit(LoadingAddUbdateDeletePostState());
         final failureOrSucess = await updatePostUseCase(event.post);
-addUbdateDeletePost(failureOrSucess, UPDATE_SUCCESS_MESSAGE);
+        emit(addUbdateDeletePost(failureOrSucess, UPDATE_SUCCESS_MESSAGE));
       } else if (event is DeletePostEvent) {
         emit(LoadingAddUbdateDeletePostState());
         final failureOrSucess = await deletePostUseCase(event.postId);
-        addUbdateDeletePost(failureOrSucess, DELETE_SUCCESS_MESSAGE);
+        emit(addUbdateDeletePost(failureOrSucess, DELETE_SUCCESS_MESSAGE));
       }
     });
   }
   AddUbdateDeletePostState addUbdateDeletePost(
-      Either failureOrSucess, String messege) {
+      Either<Failure,Unit> failureOrSucess, String messege) {
     return failureOrSucess.fold(
       (failure) {
         return ErrorAddUbdateDeletePostState(
